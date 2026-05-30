@@ -3081,8 +3081,18 @@ function initQuiz(){
   $('#quizDifficulty').onchange=()=>renderQuestionList();
   $('#quizSearch').oninput=()=>renderQuestionList();
 }
-function openQuiz(){ $('#quizPanel').classList.add('open'); $('#quizPanel').setAttribute('aria-hidden','false'); renderQuestionList(); }
-function closeQuiz(){ $('#quizPanel').classList.remove('open'); $('#quizPanel').setAttribute('aria-hidden','true'); }
+function openQuiz(){
+  $('#quizPanel').classList.add('open');
+  document.body.classList.add('quiz-open');
+  $('#quizPanel').setAttribute('aria-hidden','false');
+  renderQuestionList();
+  $('#quizArea').scrollTop = 0;
+}
+function closeQuiz(){
+  $('#quizPanel').classList.remove('open');
+  document.body.classList.remove('quiz-open');
+  $('#quizPanel').setAttribute('aria-hidden','true');
+}
 function filteredQuestions(){
   const ch=$('#quizChapter').value, diff=$('#quizDifficulty').value, term=$('#quizSearch').value.trim().toLowerCase();
   return questionBank.filter(q=>(ch==='all'||q.chapter===ch)&&(diff==='all'||q.difficulty===diff)&&(!term||(q.question+q.explanation+q.options.join(' ')).toLowerCase().includes(term)));
